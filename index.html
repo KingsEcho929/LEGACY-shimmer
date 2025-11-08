@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>LEGACY-shimmer Witness</title>
+  <style>
+    body { margin: 0; background: black; overflow: hidden; }
+    canvas { display: block; }
+    #activate { position: absolute; top: 20px; left: 20px; padding: 10px 20px; background: #00f0ff; color: black; font-weight: bold; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <button id="activate">Activate Shimmer</button>
+  <canvas id="shimmerCanvas"></canvas>
+
+  <script type="module">
+    import { simulateBreach } from './shimmer-test.js';
+
+    const canvas = document.getElementById('shimmerCanvas');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    const ctx = canvas.getContext('2d');
+
+    document.getElementById('activate').addEventListener('click', () => {
+      simulateBreach(ctx);
+    });
+  </script>
+</body>
+</html>
