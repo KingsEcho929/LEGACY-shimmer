@@ -1,7 +1,8 @@
 // velmari-siren.js
-// Async tone-isolated siren using filtered OfflineAudioContext
+// Async tone-isolated siren using filtered OfflineAudioContext with single-instance context
 
 let lastInvocation = 0;
+let context = null;
 
 export async function playVelmariSiren() {
   const now = Date.now();
@@ -9,7 +10,10 @@ export async function playVelmariSiren() {
   lastInvocation = now;
 
   try {
-    const context = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(1, 44100 * 2, 44100);
+    if (!context) {
+      context = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(1, 44100 * 2, 44100);
+    }
+
     const response = await fetch('assets/audio/velmari-siren.mp3');
     const buffer = await response.arrayBuffer();
     const decoded = await context.decodeAudioData(buffer);
@@ -19,7 +23,7 @@ export async function playVelmariSiren() {
 
     const filter = context.createBiquadFilter();
     filter.type = 'lowpass';
-    filter.frequency.setValueAtTime(8000, context.currentTime); // Cutoff above 8kHz
+    filter.frequency.setValueAtTime(4000, context.currentTime); // Cutoff above 4kHz
 
     source.connect(filter);
     filter.connect(context.destination);
