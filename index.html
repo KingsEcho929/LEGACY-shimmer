@@ -4,24 +4,53 @@
   <meta charset="UTF-8">
   <title>LEGACY-shimmer Witness</title>
   <style>
-    body { margin: 0; background: black; overflow: hidden; }
-    canvas { display: block; }
-    #activate { position: absolute; top: 20px; left: 20px; padding: 10px 20px; background: #00f0ff; color: black; font-weight: bold; border: none; cursor: pointer; }
+    body {
+      margin: 0;
+      background: black;
+      overflow: hidden;
+    }
+    canvas {
+      display: block;
+    }
+    #activate {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 20px;
+      background: #d0d0ff;
+      color: black;
+      border: none;
+      font-family: monospace;
+      cursor: pointer;
+      z-index: 10;
+    }
+    #velmari-audio-corridor {
+      display: none;
+    }
   </style>
 </head>
 <body>
   <button id="activate">Activate Shimmer</button>
+  <div id="velmari-audio-corridor"></div>
   <canvas id="shimmerCanvas"></canvas>
 
   <script type="module">
     import { simulateBreach } from './shimmer-test.js';
 
     const canvas = document.getElementById('shimmerCanvas');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
     const ctx = canvas.getContext('2d');
 
+    let shimmerReady = false;
+    window.addEventListener('load', () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      setTimeout(() => {
+        shimmerReady = true;
+      }, 3000); // Delay shimmer activation to allow YouTube to stabilize
+    });
+
     document.getElementById('activate').addEventListener('click', () => {
+      if (!shimmerReady) return;
       simulateBreach(ctx);
     });
   </script>
