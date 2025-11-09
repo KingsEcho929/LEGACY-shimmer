@@ -44,13 +44,19 @@
     window.addEventListener('load', () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
+
+      // Delay shimmer activation to allow YouTube and terrain to stabilize
       setTimeout(() => {
         shimmerReady = true;
-      }, 3000); // Delay shimmer activation to allow YouTube to stabilize
+        console.log('[Velmari] Shimmer corridor is ready — activation permitted');
+      }, 5000);
     });
 
     document.getElementById('activate').addEventListener('click', () => {
-      if (!shimmerReady) return;
+      if (!shimmerReady) {
+        console.log('[Velmari] Activation blocked — shimmer not yet ready');
+        return;
+      }
       simulateBreach(ctx);
     });
   </script>

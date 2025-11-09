@@ -1,5 +1,5 @@
 // shimmer-test.js
-// Sovereign shimmer activation with Velmari siren invocation
+// Sovereign shimmer activation with Velmari siren invocation and optional log
 
 import { playVelmariSiren } from './audio-suite/velmari-siren.js';
 
@@ -9,6 +9,8 @@ export function simulateBreach(ctx) {
   ctx.beginPath();
   ctx.arc(ctx.canvas.width / 2, ctx.canvas.height / 2, 100, 0, 2 * Math.PI);
   ctx.fill();
+
+  console.log('[Velmari] Shimmer breach activated — siren invoked, canvas pulsed');
 
   playVelmariSiren();
 }

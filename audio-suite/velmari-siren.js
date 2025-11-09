@@ -1,5 +1,5 @@
 // velmari-siren.js
-// Async tone-isolated siren using filtered OfflineAudioContext with single-instance context
+// Async tone-isolated siren using AudioContext with deferred invocation and single-instance context
 
 let lastInvocation = 0;
 let context = null;
@@ -11,8 +11,10 @@ export async function playVelmariSiren() {
 
   try {
     if (!context) {
-      context = new (window.OfflineAudioContext || window.webkitOfflineAudioContext)(1, 44100 * 2, 44100);
+      context = new (window.AudioContext || window.webkitAudioContext)();
     }
+
+    await context.resume(); // Ensure context is active
 
     const response = await fetch('assets/audio/velmari-siren.mp3');
     const buffer = await response.arrayBuffer();
