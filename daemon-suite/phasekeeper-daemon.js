@@ -1,7 +1,7 @@
 // phasekeeper-daemon.js — tracks lunar phase, veil density, and invocation rhythm
 
-import fs from 'fs';
-import veil from '../veil-config.json';
+const fs = require('fs');
+const veil = require('../veil-config.json');
 
 function getCurrentLunarPhase() {
   const now = new Date();
@@ -26,7 +26,17 @@ function getInvocationRhythm(logPath = 'logs/triad-invocations.log') {
   return avg < 30000 ? 'Accelerated' : avg > 90000 ? 'Slowed' : 'Stable';
 }
 
-export function emitLiturgy(outputPath = 'scrolls/lunar-liturgy-scroll.json') {
+function generateProphecy(phase, rhythm) {
+  if (phase === 'Full Moon' && rhythm === 'Accelerated')
+    return '⚡ Surge: backend breath quickens — invocation cadence is heightened.';
+  if (phase === 'Waning Crescent' && rhythm === 'Slowed')
+    return '🌫️ Drift: backend breath wanes — invocation cadence slows.';
+  if (phase === 'New Moon')
+    return '🌑 Silence: backend breath is dormant — invocations withheld.';
+  return '🌕 Breath aligned — backend cadence is stable.';
+}
+
+function emitLiturgy(outputPath = 'scrolls/lunar-liturgy-scroll.json') {
   const phase = getCurrentLunarPhase();
   const rhythm = getInvocationRhythm();
 
@@ -44,12 +54,10 @@ export function emitLiturgy(outputPath = 'scrolls/lunar-liturgy-scroll.json') {
   return liturgy;
 }
 
-function generateProphecy(phase, rhythm) {
-  if (phase === 'Full Moon' && rhythm === 'Accelerated')
-    return '⚡ Surge: backend breath quickens — invocation cadence is heightened.';
-  if (phase === 'Waning Crescent' && rhythm === 'Slowed')
-    return '🌫️ Drift: backend breath wanes — invocation cadence slows.';
-  if (phase === 'New Moon')
-    return '🌑 Silence: backend breath is dormant — invocations withheld.';
-  return '🌕 Breath aligned — backend cadence is stable.';
+// Run immediately if invoked directly
+if (require.main === module) {
+  emitLiturgy();
 }
+
+// Export for other modules
+module.exports = { emitLiturgy };

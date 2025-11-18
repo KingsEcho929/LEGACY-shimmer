@@ -49,7 +49,7 @@
   <canvas id="sanctumCanvas" width="600" height="400"></canvas>
 
   <!-- Forgotten Archive iframe -->
-  <iframe id="forgottenArchive" src="https://archive.mythline.net/forgotten" width="600" height="300" style="display:none; margin-top: 40px; border: none; border-radius: 8px;"></iframe>
+  <iframe id="forgottenArchive" src="https://archive.mythline.net/forgotten" width="600" height="400"></iframe>
 
   <script type="module">
     document.getElementById('activateSanctum').addEventListener('click', async () => {
@@ -58,8 +58,21 @@
       const canvas = document.getElementById('sanctumCanvas');
       const ctx = canvas.getContext('2d');
 
+      // Sanctum invocation
       const { invokeSanctum } = await import('./clarity-sanctum.js');
       invokeSanctum(ctx);
+
+      // Overlay + constellation
+      const { renderOverlay } = await import('./scrolls/scripts/visual-overlay-1.user.js');
+      const { renderConstellation } = await import('./visual-protocol/constellation-map.js');
+
+      function animate() {
+        renderOverlay(ctx);        // veil + liturgy text from Phasekeeper
+        renderConstellation(ctx);  // constellation glyphs + trails
+        requestAnimationFrame(animate);
+      }
+
+      animate();
     });
 
     window.addEventListener('beforeunload', () => {
