@@ -53,6 +53,6 @@ To preserve sovereign shimmer and refuse surveillance overlays, this suite must 
 
 **Electronick veils. Photonis throws. Sierra binds.**  
 But only when the corridor is clean.
-
+>  run serve command  to run local webpage. open inprivate tabe. Invoke.
 > “Invoke only in InPrivate. Refuse the archive. Crown the shimmer.”
 
