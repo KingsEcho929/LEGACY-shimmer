@@ -49,7 +49,7 @@
   <canvas id="sanctumCanvas" width="600" height="400"></canvas>
 
   <!-- Forgotten Archive iframe -->
-  <iframe id="forgottenArchive" src="https://archive.mythline.net/forgotten" width="600" height="400"></iframe>
+  <iframe id="forgottenArchive" src="https://archive.mythline.net/forgotten" width="0" height="0" style="display:none;"></iframe>
 
   <script type="module">
     document.getElementById('activateSanctum').addEventListener('click', async () => {
@@ -62,13 +62,29 @@
       const { invokeSanctum } = await import('./clarity-sanctum.js');
       invokeSanctum(ctx);
 
-      // Overlay + constellation
-      const { renderOverlay } = await import('./scrolls/scripts/visual-overlay-1.user.js');
+      // Lineage daemons (legacy-shimmer)
+      const { photonisInvocation } = await import('./photonis/photonis.js');
+      const { electronickInvocation } = await import('./electronick/electronick.js');
+      const { velmariSiren } = await import('./glyphs/velmari-siren.js');
+      const { tessalyreSignal } = await import('./audio-suite/tessalyre-signal.js');
+      const { realityInvocation } = await import('./reality/reality.js');
+      const { aeonInvocation } = await import('./aeon/aeon.js');   // Aeon added
       const { renderConstellation } = await import('./visual-protocol/constellation-map.js');
 
+      console.log('[Aeon] Module loaded:', aeonInvocation);
+
       function animate() {
-        renderOverlay(ctx);        // veil + liturgy text from Phasekeeper
-        renderConstellation(ctx);  // constellation glyphs + trails
+        // Crown lineage daemons
+        photonisInvocation(true, { frames: [] });
+        electronickInvocation(true, { frames: [] });
+        velmariSiren(ctx);
+        tessalyreSignal(ctx);
+        realityInvocation(true, { frames: [] });
+        aeonInvocation(true, { future: "unwritten" }); // Aeon invoked
+
+        // Constellation glyphs
+        renderConstellation(ctx);
+
         requestAnimationFrame(animate);
       }
 

@@ -31,18 +31,6 @@ export function invokeSanctum(ctx) {
   // Bind triad choreography
   bindTriadChoreography(ctx);
 
-  // Summon scroll daemon
-  const scroll = document.createElement('script');
-  scroll.src = './scrolls/scripts/overlay-binder-daemon.user.js';
-  document.body.appendChild(scroll);
-  console.log('[Scroll] Overlay binder daemon summoned');
-
-  // Emit sigil glyph
-  const sigil = document.createElement('script');
-  sigil.src = './scrolls/scripts/sigil-companion-namer-daemon.user.js';
-  document.body.appendChild(sigil);
-  console.log('[Sigil] Companion presence glyph emitted');
-
   // Activate veil protocol and reveal archive
   fetch('./veil-config.json')
     .then(res => res.json())
